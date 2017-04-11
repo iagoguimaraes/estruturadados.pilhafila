@@ -8,62 +8,50 @@ public class Fila {
     public Fila(int tamanho) {
         fila = new Object[tamanho];
         ini = 0;
-        fim = -1;
+        fim = tamanho-1;
         qtd = 0;
     }
 
     public void enqueue(Object objeto) {
-        if (qtd < fila.length) {
+        if (!isFull()) {
             if (fim == fila.length - 1) {
                 fim = -1;
-            }           
-            fila[++fim] = objeto;   
+            }
             qtd++;
+            fila[++fim] = objeto;           
         }
     }
 
     public Object dequeue() {
-        if (qtd > 0) {
+        if (!isEmpty()) {
+            Object retorno = fila[ini];
+            ini++;
             if (ini == fila.length) {
                 ini = 0;
-            }
+            }           
             qtd--;
-            return fila[ini++];
+            return retorno;
         }
         return null;
     }
+    
+    public boolean isEmpty(){
+        return qtd == 0;
+    }
+    
+    public boolean isFull(){
+        return qtd == fila.length;
+    }
 
     public void printar() {
-        for (int i = ini, j = ini; i <= qtd; i++, j++) {
-            if(j == fila.length){
-                j = 0;
-            }
-            System.out.println(fila[j]);
+        System.out.print("INI: " + ini);
+        System.out.print(" | FIM: " + fim);
+        System.out.print(" | QTD: " + qtd);
+        System.out.print(" | FILA: ");
+        for (int i = 0; i < fila.length; i++) {
+            System.out.print(fila[i]);
+            System.out.print(", ");
         }
+        System.out.println();
     }
-
-    public static class Main {
-
-        public static void main(String[] args) {
-            Fila fila = new Fila(5);
-            fila.enqueue("1");
-            fila.enqueue("2");
-            fila.enqueue("3");
-            fila.printar();
-            System.out.println();
-            System.out.println(fila.dequeue());
-            System.out.println(fila.dequeue());
-            System.out.println(fila.dequeue());
-            System.out.println(fila.dequeue());
-            System.out.println(fila.dequeue());
-            System.out.println(fila.dequeue());
-            fila.enqueue("4");
-            fila.enqueue("5");
-            System.out.println(fila.dequeue());
-            fila.enqueue("6");
-            System.out.println();
-            fila.printar();
-        }
-    }
-
 }
